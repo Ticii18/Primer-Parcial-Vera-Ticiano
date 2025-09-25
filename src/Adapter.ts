@@ -20,10 +20,12 @@ class AdaptadorInventario {
   }
 }
 
-
 const inventarioViejo = new InventarioViejo();
 const adaptador = new AdaptadorInventario(inventarioViejo);
 
-adaptador.addItem({ nombre: "Router Cisco", tipo: "Red", estado: "disponible" });
+adaptador.addItem({
+  nombre: "Router Cisco",
+  tipo: "Red",
+  estado: "disponible",
+});
 console.log(adaptador.getItems());
-
