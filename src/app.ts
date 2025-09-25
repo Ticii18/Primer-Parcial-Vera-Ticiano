@@ -1,29 +1,30 @@
-class InventarioViejo {
-  private items: { nombre: string }[] = [];
-  addItem(nombre: string) {
-    this.items.push({ nombre });
+class Configuracion {
+  private static instancia: Configuracion;
+  private data: { [key: string]: string } = {};
+
+  private constructor() {
   }
-  getItems() {
-    return this.items;
+
+  public static obtenerInstancia(): Configuracion {
+    if (!Configuracion.instancia) {
+      Configuracion.instancia = new Configuracion();
+    }
+    return Configuracion.instancia;
+  }
+
+  public set(clave: string, valor: string) {
+    this.data[clave] = valor;
+  }
+
+  public get(clave: string) {
+    return this.data[clave];
   }
 }
 
-class AdaptadorInventario {
-  constructor(private inventarioViejo: InventarioViejo) {}
+// uso del singleton
+const conf1 = Configuracion.obtenerInstancia();
+const conf2 = Configuracion.obtenerInstancia();
 
-  addItem(item: { nombre: string; tipo: string; estado: string }) {
-    this.inventarioViejo.addItem(item.nombre);
-  }
+conf1.set("modo", "producción");
 
-  getItems() {
-    return this.inventarioViejo.getItems();
-  }
-}
-
-
-const inventarioViejo = new InventarioViejo();
-const adaptador = new AdaptadorInventario(inventarioViejo);
-
-adaptador.addItem({ nombre: "Router Cisco", tipo: "Red", estado: "disponible" });
-console.log(adaptador.getItems());
-
+console.log(conf2.get("modo")); 
